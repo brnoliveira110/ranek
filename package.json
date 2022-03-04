@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.26.0",
     "core-js": "^3.8.3",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
@@ -37,12 +38,13 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {
-    }
+    "rules": {}
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "_id": "ranek@0.1.0",
+  "readme": "ERROR: No README data found!"
 }
