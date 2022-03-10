@@ -1,43 +1,64 @@
 <template>
   <section class="produtos-container">
-    <div v-if="produtos && produtos.length" class="produtos">
-      <div class="produto" v-for="produto in produtos" :key="produto.id">
-        <router-link to="/">
-          <!-- <img :src="produto.fotos[0].src" :alt="produto.fotos[0].titulo" /> -->
-          <p class="preco">{{ produto.preco }}</p>
-          <h2 class="titulo">{{ produto.nome }}</h2>
-          <p>{{ produto.descricao }}</p>
-        </router-link>
+    <transition mode="out-in">
+      <div v-if="produtos && produtos.length" class="produtos" key="produtos">
+        <div class="produto" v-for="(produto, index) in produtos" :key="index">
+          <router-link :to="{ name: 'produto', params: { id: produto.id } }">
+            <!-- <img :src="produto.fotos[0].src" :alt="produto.fotos[0].titulo" /> -->
+            <p class="preco">{{ produto.preco | numeroPreco }}</p>
+            <h2 class="titulo">{{ produto.nome }}</h2>
+            <p>{{ produto.descricao }}</p>
+          </router-link>
+        </div>
+        <ProdutosPaginar
+          :produtosTotal="produtosTotal"
+          :produtosPorPagina="produtosPorPagina"
+        />
       </div>
-    </div>
-    <div v-else-if="produtos && produtos.length === 0" class="sem-resultados">
-      <p>Busca sem resultado tente buscar outro termo.</p>
-    </div>
+      <div
+        v-else-if="produtos && produtos.length === 0"
+        class="sem-resultados"
+        key="sem-resultados"
+      >
+        <p>Busca sem resultado tente buscar outro termo.</p>
+      </div>
+      <PaginaCarregando key="carregando" v-else />
+    </transition>
   </section>
 </template>
 <script>
+import ProdutosPaginar from "@/components/ProdutosPaginar.vue";
 import { api } from "@/services.js";
 import { serialize } from "@/helper.js";
 
 export default {
+  name: "ProdutosLista",
+  components: {
+    ProdutosPaginar,
+  },
   data() {
     return {
       produtos: null,
-      pordutosPorPagina: 9,
+      produtosPorPagina: 5,
+      produtosTotal: 0,
     };
   },
   computed: {
     url() {
       const query = serialize(this.$route.query);
-      return `/produto?_limit=${this.pordutosPorPagina}${query}`;
+      return `/produto?_limit=${this.produtosPorPagina}${query}`;
     },
   },
 
   methods: {
     getProdutos() {
-      api.get(this.url).then((response) => {
-        this.produtos = response.data;
-      });
+      this.produtos = null;
+      setTimeout(() => {
+        api.get(this.url).then((response) => {
+          this.produtosTotal = Number(response.headers["x-total-count"]);
+          this.produtos = response.data;
+        });
+      }, 1500);
     },
   },
   watch: {
@@ -57,7 +78,7 @@ export default {
 }
 
 .produtos {
-  display: flex;
+  display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 30px;
   margin: 30px;
