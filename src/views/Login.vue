@@ -20,6 +20,9 @@ import LoginCriar from "@/components/LoginCriar.vue";
 
 export default {
   name: "LoginUsuario",
+  components: {
+    LoginCriar,
+  },
   data() {
     return {
       login: {
@@ -27,9 +30,6 @@ export default {
         senha: "",
       },
     };
-  },
-  components: {
-    LoginCriar,
   },
 
   methods: {
