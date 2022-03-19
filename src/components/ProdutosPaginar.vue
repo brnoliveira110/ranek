@@ -21,7 +21,7 @@ export default {
   methods: {
     query(pagina) {
       return {
-        ...this.$route.query,
+        ...this.$router.query,
         _page: pagina,
       };
     },
@@ -52,7 +52,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 ul {
   grid-column: 1 / -1;
 }
