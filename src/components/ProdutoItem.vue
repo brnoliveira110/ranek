@@ -8,7 +8,7 @@
       <p>Ver Produto</p></router-link
     >
     <div class="info">
-      <p class="preco">{{ produto.preco }}</p>
+      <p class="preco">{{ produto.preco | numeroPreco }}</p>
       <h2 class="titulo">{{ produto.nome }}</h2>
       <slot></slot>
     </div>

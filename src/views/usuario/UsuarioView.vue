@@ -12,7 +12,7 @@
           <router-link :to="{ name: 'UsuarioVendas' }">Vendas</router-link>
         </li>
         <li>
-          <router-link :to="{ name: 'UsuarioEditar' }"
+          <router-link :to="{ name: 'usuario-editar' }"
             >Editar Usuário</router-link
           >
         </li>

@@ -51,7 +51,7 @@ const routes = [
       },
       {
         path: "editar",
-        name: "UsuarioEditar",
+        name: "usuario-editar",
         component: UsuarioEditar,
       },
     ],
